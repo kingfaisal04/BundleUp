@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BundleUp - Buy Mobile Data Instantly</title>
+  
+  <!-- STUDY COMMENT: Import modern Google Fonts. 'Syne' is used for stylish headings, and 'Inter' provides extreme legibility for details. -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- STUDY COMMENT: Load Tailwind CSS Play CDN. Allows rapid layout customization via Utility Classes. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- STUDY COMMENT: Load Lucide Icons CDN. Provides clean, scalable SVG vector icons for UI visuals. -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- STUDY COMMENT: Tailwind Configuration to set up fonts, custom color scales, and brand specific tones. -->
+  <!-- <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Syne', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              DEFAULT: '#3B82F6', // Cobalt Blue
+              dark: '#1D4ED8',
+              light: 'rgba(59, 130, 246, 0.1)',
+            },
+            accent: {
+              DEFAULT: '#10B981', // Emerald Green
+              dark: '#047857',
+              light: 'rgba(16, 185, 129, 0.1)',
+            }
+          }
+        }
+      }
+    }
+  </script> -->
+
+  <style>
+    /* STUDY COMMENT: Adding custom global scrollbars and styling keyframe animations using custom CSS properties */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B0F19;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1E293B;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334155;
+    }
+    
+    @keyframes pulse-slow {
+      0%, 100% { opacity: 0.15; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(1.1); }
+    }
+    .animate-pulse-slow {
+      animation: pulse-slow 5s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-full flex flex-col antialiased selection:bg-blue-600 selection:text-white">
+
+  <!-- STUDY COMMENT: Glow Orbs background effect. Creates depth and premium aesthetic feel common in modern SaaS sites. -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute top-0 -left-1/4 w-[80vw] h-[80vw] md:w-[50vw] md:h-[50vw] rounded-full bg-blue-600/10 blur-[120px] animate-pulse-slow"></div>
+    <div class="absolute bottom-10 right-0 w-[60vw] h-[60vw] md:w-[40vw] md:h-[40vw] rounded-full bg-emerald-500/5 blur-[100px] animate-pulse-slow" style="animation-delay: 2s;"></div>
+  </div>
+
+  <div class="relative z-10 flex flex-col flex-grow">
+    
+    <!-- STUDY COMMENT: Navbar is flexbox container. 'backdrop-blur-md' creates a premium glass look. 'sticky top-0' locks the header. -->
+    <nav class="sticky top-0 z-50 bg-[#0F1626]/80 backdrop-blur-md border-b border-slate-800/80 px-4 md:px-8 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="showPage('landing')">
+        <!-- SVG Lightning Logo icon -->
+        <div class="bg-gradient-to-tr from-blue-600 to-emerald-400 p-2 rounded-xl text-white shadow-lg shadow-blue-500/20">
+          <i data-lucide="zap" class="w-5 h-5 fill-current"></i>
+        </div>
+        <span class="font-display font-extrabold text-lg md:text-xl tracking-tight bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
+          Bundle<span class="text-blue-500">Up</span>
+        </span>
+      </div>
+
+      <!-- STUDY COMMENT: Desktop Nav Tabs. 'hidden md:flex' hides this on mobile viewports. -->
+      <div class="hidden md:flex items-center gap-1 bg-slate-900/60 p-1 rounded-xl border border-slate-800">
+        <button class="nav-tab px-4 py-2 text-xs font-medium rounded-lg transition-all duration-200 flex items-center gap-1.5" data-page="landing" onclick="showPage('landing')">
+          <i data-lucide="home" class="w-3.5 h-3.5"></i> Home
+        </button>
+        <button class="nav-tab px-4 py-2 text-xs font-medium rounded-lg transition-all duration-200 flex items-center gap-1.5" data-page="customer" onclick="showPage('customer')">
+          <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> My Account
+        </button>
+        <button class="nav-tab px-4 py-2 text-xs font-medium rounded-lg transition-all duration-200 flex items-center gap-1.5" data-page="agent" onclick="showPage('agent')">
+          <i data-lucide="users" class="w-3.5 h-3.5"></i> Agent Portal
+        </button>
+        <button class="nav-tab px-4 py-2 text-xs font-medium rounded-lg transition-all duration-200 flex items-center gap-1.5" data-page="admin" onclick="showPage('admin')">
+          <i data-lucide="settings" class="w-3.5 h-3.5"></i> Admin Console
+        </button>
+      </div>
+
+      <!-- STUDY COMMENT: User avatar and Live status indicator badge. -->
+      <div class="flex items-center gap-4">
+        <div class="sm:block hidden flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase ring-1 ring-emerald-500/25">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+          <span>Live API</span>
+        </div>
+        <div class="flex items-center gap-2 bg-slate-900/80 pl-2.5 pr-1 py-1 rounded-full border border-slate-800 cursor-pointer hover:border-slate-700 transition-all" onclick="showPage('customer')">
+          <span class="hidden sm:inline text-xs font-semibold text-slate-300">M.Faisal</span>
+          <div class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold ring-2 ring-blue-500/20">
+            M.F
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===== LANDING / CHECKOUT PAGE ===== -->
+    <!-- STUDY COMMENT: 'page-container' represents dynamic router container. 'active' pages display 'block', non-active hide via 'hidden'. -->
+    <div class="page-container block flex-grow" id="page-landing">
+      
+      <!-- STUDY COMMENT: Hero Section. Uses modern text layout, glass stat cards, and gradient text structures. -->
+      <div class="relative py-12 md:py-20 px-6 max-w-7xl mx-auto text-center border-b border-slate-800/50">
+        <div class="inline-flex items-center gap-2 bg-blue-500/10 text-blue-400 border border-blue-500/20 px-4 py-1.5 rounded-full text-xs font-semibold mb-6 tracking-wide shadow-inner shadow-blue-500/5">
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-blue-400 animate-bounce"></i> Ghana's Fastest Automated Data Platform
+        </div>
+        
+        <h1 class="font-display font-extrabold text-4xl md:text-6xl text-white tracking-tight leading-[1.05] mb-6">
+          Buy Mobile Data Bundles<br>
+          <span class="bg-gradient-to-r from-blue-400 via-indigo-400 to-emerald-400 bg-clip-text text-transparent">Instantly in 2 Minutes.</span>
+        </h1>
+        
+        <p class="text-slate-400 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed">
+          Get MTN, Telecel, and AirtelTigo bundles directly to your phone. Save money with <span class="text-emerald-400 font-semibold">1% instant cashback</span> on every purchase.
+        </p>
+
+        <!-- STUDY COMMENT: Buttons styled with transition scales to trigger dynamic feedback. -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+          <a href="#buy-section" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold rounded-xl text-sm transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/20 active:scale-95 text-center flex items-center justify-center gap-2">
+            <i data-lucide="shopping-cart" class="w-4 h-4"></i> Buy Bundles Now
+          </a>
+          <button onclick="showPage('agent')" class="w-full sm:w-auto px-8 py-3.5 bg-slate-900 border border-slate-800 hover:bg-slate-800 text-slate-300 font-semibold rounded-xl text-sm transition-all duration-200 transform hover:-translate-y-0.5 active:scale-95 text-center flex items-center justify-center gap-2">
+            Become a Reseller <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>  
+
+        <!-- STUDY COMMENT: Hero metrics grid layout. Desktop scales to 4 columns. Grid items are glass-styled. -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 pt-10 border-t border-slate-900">
+          <div class="bg-slate-900/40 backdrop-blur-sm border border-slate-800/60 p-4 rounded-2xl">
+            <div class="font-display font-extrabold text-2xl md:text-3xl text-white">300+</div>
+            <div class="text-xs text-slate-500 font-medium mt-1">Happy Customers</div>
+          </div>
+          <div class="bg-slate-900/40 backdrop-blur-sm border border-slate-800/60 p-4 rounded-2xl">
+            <div class="font-display font-extrabold text-2xl md:text-3xl text-blue-400">&lt; 2-10 Mins</div>
+            <div class="text-xs text-slate-500 font-medium mt-1">Average Delivery Time</div>
+          </div>
+          <div class="bg-slate-900/40 backdrop-blur-sm border border-slate-800/60 p-4 rounded-2xl">
+            <div class="font-display font-extrabold text-2xl md:text-3xl text-emerald-400">1% Back</div>
+            <div class="text-xs text-slate-500 font-medium mt-1">Cashback Guarantee</div>
+          </div>
+          <div class="bg-slate-900/40 backdrop-blur-sm border border-slate-800/60 p-4 rounded-2xl">
+            <div class="font-display font-extrabold text-2xl md:text-3xl text-purple-400">99%</div>
+            <div class="text-xs text-slate-500 font-medium mt-1">API Uptime Monitor</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== MAIN TRANSACTION / BUY SECTION ===== -->
+      <!-- STUDY COMMENT: Anchor point layout container. Uses grid to coordinate selection inputs on the left and form checkout on the right. -->
+      <div id="buy-section" class="max-w-7xl mx-auto px-4 md:px-8 py-16 scroll-mt-20">
+        
+        <div class="text-center md:text-left mb-10">
+          <h2 class="font-display font-extrabold text-2xl md:text-3xl text-white">Choose Your Package</h2>
+          <p class="text-slate-500 text-sm mt-1">Choose your network carrier, selecting your desired size data bundle package.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          
+          <!-- STUDY COMMENT: Network and Bundle Grid spanning 2 columns on desktop viewports ('lg:col-span-2'). -->
+          <div class="lg:col-span-2 space-y-8">
+            
+            <!-- Network Grid Selection Wrapper -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">Step 1: Select Network</label>
+              <!-- STUDY COMMENT: Responsive grid columns ('grid-cols-3'). Each card changes styles on select state click. -->
+              <div class="grid grid-cols-3 gap-4" id="networks">
+                <!-- MTN Card -->
+                <div class="network-card bg-[url('images/MTN.jpg')] bg-no-repeat bg-cover bg-center backdrop-blur-sm border-4 border-slate-800 rounded-2xl p-4 text-center cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-slate-700/80 active:scale-95 flex flex-col justify-between" onclick="selectNetwork(this, 'MTN')">
+                  <div class="w-12 h-12 text-[#FFCB00] rounded-full mx-auto flex items-center justify-center font-extrabold text-sm ring-4 ring-[#FFCB00]/5 font-display mb-3"></div>
+                  <!-- <div> -->
+                    <!-- <h3 class="text-sm font-semibold text-slate-200">MTN</h3> -->
+                    <!-- <span class="text-[10px] text-slate-500 block mt-0.5">Most Stable</span> -->
+                  <!-- </div> -->
+                </div>
+                <!-- Telecel Card -->
+                <div class="network-card bg-[url('images/TELECEL.jpg')] bg-no-repeat bg-cover bg-center backdrop-blur-sm border-4 border-slate-800 rounded-2xl p-4 text-center cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-slate-700/80 active:scale-95 flex flex-col justify-between" onclick="selectNetwork(this, 'Telecel')">
+                  <div class="w-12 h-12 bg-red-600/10 text-red-500 rounded-full mx-auto flex items-center justify-center font-extrabold text-sm ring-4 ring-red-600/5 font-display mb-3"></div>
+                  <!-- <div> -->
+                    <!-- <h3 class="text-sm font-semibold text-slate-200"></h3> -->
+                    <!-- <span class="text-[10px] text-slate-500 block mt-0.5">Great Rates</span> -->
+                  <!-- </div> -->
+                </div>
+                <!-- AirtelTigo Card -->
+                <div class="network-card bg-[url(/images/AT.jpg)] bg-no-repeat bg-cover bg-center backdrop-blur-sm border-4 border-slate-800 rounded-2xl p-4 text-center cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-slate-700/80 active:scale-95 flex flex-col justify-between" onclick="selectNetwork(this, 'AirtelTigo')">
+                  <div class="w-12 h-12 bg-rose-600/10 text-rose-500 rounded-full mx-auto flex items-center justify-center font-extrabold text-sm ring-4 ring-rose-600/5 font-display mb-3"></div>
+                  <!-- <div> -->
+                    <!-- <h3 class="text-sm font-semibold text-slate-200">AirtelTigo</h3> -->
+                    <!-- <span class="text-[10px] text-slate-500 block mt-0.5">Fast Deliver</span> -->
+                  <!-- </div> -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Bundle Grid Selection Wrapper -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-400 uppercase tracking-widest mb-4">Step 2: Choose Data Volume</label>
+              <!-- STUDY COMMENT: 2 column grid responsive spacing. Active state styling handled in JS dynamically. -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="bundles">
+                <!-- 1GB Card -->
+                <div class="bundle-card bg-slate-900/40 backdrop-blur-sm border border-slate-800 rounded-2xl p-5 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-slate-700/80 flex flex-col justify-between gap-4" onclick="selectBundle(this, '1 GB', 'GH₵ 5.20')">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <div class="font-display font-extrabold text-2xl text-slate-100">1 GB</div>
+                      <span class="text-xs text-slate-500 block mt-1">Valid 7 Days</span>
+                    </div>
+                    <span class="text-[10px] font-bold text-[#FFCB00] bg-[#FFCB00]/10 px-2 py-0.5 rounded-full ring-1 ring-[#FFCB00]/20">PROMO</span>
+                  </div>
+                  <div class="flex items-baseline gap-2">
+                    <span class="text-lg font-bold text-slate-200">GH₵ 5.20</span>
+                    <span class="text-xs text-slate-500 line-through">GH₵ 6.00</span>
+                  </div>
+                </div>
+                <!-- 2GB Card -->
+                <div class="bundle-card bg-slate-900/40 backdrop-blur-sm border border-slate-800 rounded-2xl p-5 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-slate-700/80 flex flex-col justify-between gap-4" onclick="selectBundle(this, '2 GB', 'GH₵ 9.50')">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <div class="font-display font-extrabold text-2xl text-slate-100">2 GB</div>
+                      <span class="text-xs text-slate-500 block mt-1">Valid 14 Days</span>
+                    </div>
+                  </div>
+                  <div class="flex items-baseline gap-2">
+                    <span class="text-lg font-bold text-slate-200">GH₵ 9.50</span>
+                  </div>
+                </div>
+                <!-- 5GB Card -->
+                <div class="bundle-card bg-slate-900/40 backdrop-blur-sm border border-slate-800 rounded-2xl p-5 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-slate-700/80 flex flex-col justify-between gap-4" onclick="selectBundle(this, '5 GB', 'GH₵ 23.50')">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <div class="font-display font-extrabold text-2xl text-slate-100">5 GB</div>
+                      <span class="text-xs text-slate-500 block mt-1">Valid 30 Days</span>
+                    </div>
+                    <span class="text-[10px] font-bold text-[#FFCB00] bg-[#FFCB00]/10 px-2 py-0.5 rounded-full ring-1 ring-[#FFCB00]/20">Best Value</span>
+                  </div>
+                  <div class="flex items-baseline gap-2">
+                    <span class="text-lg font-bold text-slate-200">GH₵ 23.50</span>
+                    <span class="text-xs text-slate-500 line-through">GH₵ 28.00</span>
+                  </div>
+                </div>
+                <!-- 10GB Card -->
+                <div class="bundle-card bg-slate-900/40 backdrop-blur-sm border border-slate-800 rounded-2xl p-5 cursor-pointer transition-all duration-200 hover:-translate-y-1 hover:border-slate-700/80 flex flex-col justify-between gap-4" onclick="selectBundle(this, '10 GB', 'GH₵ 42.00')">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <div class="font-display font-extrabold text-2xl text-slate-100">10 GB</div>
+                      <span class="text-xs text-slate-500 block mt-1">Valid 30 Days</span>
+                    </div>
+                  </div>
+                  <div class="flex items-baseline gap-2">
+                    <span class="text-lg font-bold text-slate-200">GH₵ 42.00</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- STUDY COMMENT: Order Checkout Container. Styled as clean glass block container with checkout input metrics. -->
+          <div class="bg-slate-900/60 border border-slate-800 p-6 md:p-8 rounded-3xl shadow-xl flex flex-col justify-between h-fit space-y-6">
+            <div>
+              <h3 class="font-display font-bold text-lg text-white mb-1 flex items-center gap-2">
+                <i data-lucide="receipt" class="w-5 h-5 text-blue-500"></i> Checkout Order
+              </h3>
+              <p class="text-xs text-slate-500">Review your payment method and input recipient details below.</p>
+            </div>
+
+            <!-- Recipient Number form entry -->
+            <div class="space-y-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-1.5">Recipient Phone Number</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                    <i data-lucide="phone" class="w-4 h-4"></i>
+                  </div>
+                  <input type="tel" id="phone-input" placeholder="e.g. 0244 123 456" class="w-full bg-[#0B0F19] text-white border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-sm focus:outline-none focus:border-blue-500 transition duration-150">
+                </div>
+              </div>
+
+              <!-- Payment Method dropdown configuration -->
+              <div>
+                <label class="block text-xs font-semibold text-slate-400 mb-1.5">Payment Method</label>
+                <div class="relative">
+                  <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                    <i data-lucide="credit-card" class="w-4 h-4"></i>
+                  </div>
+                  <select id="payment-method" class="w-full bg-[#0B0F19] text-white border border-slate-800 rounded-xl py-3 pl-10 pr-4 text-sm focus:outline-none focus:border-blue-500 transition duration-150 appearance-none cursor-pointer">
+                    <option>MTN Mobile Money</option>
+                    <option>Telecel Cash</option>
+                    <option>Card (Visa/Mastercard)</option>
+                    <option>Wallet Balance (GH₵ 47.50)</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-500">
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Receipt breakdowns dynamic recap card -->
+            <div class="bg-[#0B0F19] border border-slate-850 p-4 rounded-xl space-y-2.5 text-xs text-slate-400">
+              <div class="flex justify-between items-center">
+                <span>Bundle Selected</span>
+                <span class="font-semibold text-slate-200" id="order-bundle">1 GB - MTN</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span>Base Pricing</span>
+                <span class="font-semibold text-slate-200 font-mono" id="order-price">GH₵ 5.20</span>
+              </div>
+              <div class="flex justify-between items-center text-emerald-400 border-t border-slate-800/80 pt-2.5">
+                <span class="flex items-center gap-1"><i data-lucide="gift" class="w-3.5 h-3.5"></i> Cashback Earned (1%)</span>
+                <span class="font-bold font-mono" id="order-cashback">+ GH₵ 0.05</span>
+              </div>
+            </div>
+
+            <!-- Pay button with animate pulsing lightnings -->
+            <button onclick="placeOrder()" class="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-bold py-3.5 px-6 rounded-xl transition duration-150 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 shadow-lg shadow-blue-500/10">
+              <i data-lucide="zap" class="w-4 h-4 fill-current text-white animate-pulse"></i> Pay & Deliver Instantly
+            </button>
+          </div>
+          
+        </div>
+      </div>
+
+      <!-- ===== WHY CHOOSE DATA BUNDLE SECTIONS ===== -->
+      <!-- STUDY COMMENT: Styled cards layout mapping product benefits using flex columns. -->
+      <div class="max-w-7xl mx-auto px-4 md:px-8 py-16 border-t border-slate-800/50">
+        <div class="text-center mb-12">
+          <h2 class="font-display font-extrabold text-2xl md:text-3xl text-white">Why Choose BundleUp?</h2>
+          <p class="text-gray-300 text-sm mt-1">Discover what sets our VTU distribution network apart from alternatives.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-slate-900/20 border border-slate-850 p-6 rounded-2xl hover:border-slate-800 transition duration-150">
+            <div class="w-10 h-10 bg-blue-500/10 text-blue-400 rounded-xl flex items-center justify-center mb-4">
+              <i data-lucide="clock" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-semibold text-slate-100 mb-2">Sub-2 Minute Delivery</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Automated processing via APIs ensures bundles arrive before competitors even review invoices.</p>
+          </div>
+          <div class="bg-slate-900/20 border border-slate-850 p-6 rounded-2xl hover:border-slate-800 transition duration-150">
+            <div class="w-10 h-10 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center mb-4">
+              <i data-lucide="wallet" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-semibold text-slate-100 mb-2">Cashback on Every Purchase</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Earn 3% cashback directly credited back to your system wallet on every order.</p>
+          </div>
+          <div class="bg-slate-900/20 border border-slate-850 p-6 rounded-2xl hover:border-slate-800 transition duration-150">
+            <div class="w-10 h-10 bg-purple-500/10 text-purple-400 rounded-xl flex items-center justify-center mb-4">
+              <i data-lucide="trending-up" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-semibold text-slate-100 mb-2">Earn as a Reseller</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Join 500+ active agents with private dashboards, adjusted margins, and sub-agents.</p>
+          </div>
+          <div class="bg-slate-900/20 border border-slate-850 p-6 rounded-2xl hover:border-slate-800 transition duration-150">
+            <div class="w-10 h-10 bg-indigo-500/10 text-indigo-400 rounded-xl flex items-center justify-center mb-4">
+              <i data-lucide="message-square" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-semibold text-slate-100 mb-2">WhatsApp Bot Ordering</h4>
+            <p class="text-xs text-slate-400 leading-relaxed">Initiate bundle ordering pipelines directly inside a secure 24/7 WhatsApp conversation.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== CUSTOMER DASHBOARD ===== -->
+    <!-- STUDY COMMENT: Two column sidebar setup. 'hidden' on default routing. Responsive layout switches to stacked flow on small screens. -->
+    <div class="page-container hidden flex-grow" id="page-customer">
+      <div class="max-w-7xl mx-auto px-4 md:px-8 py-8 md:grid md:grid-cols-[240px_1fr] gap-8">
+        
+        <!-- Sidebar layout menu options -->
+        <div class="space-y-6 mb-8 md:mb-0">
+          <div class="bg-slate-900/40 border border-slate-800 p-5 rounded-2xl">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-emerald-400 text-white flex items-center justify-center font-extrabold text-sm">
+                MO
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-slate-200 leading-none">Mohammed Faisal</h4>
+                <span class="text-[10px] text-slate-500 mt-1 block">0530 716 545</span>
+              </div>
+            </div>
+
+            <!-- Wallet status balance widget -->
+            <div class="bg-blue-600/10 border border-blue-500/10 p-3 rounded-xl">
+              <span class="text-[9px] font-bold text-blue-400 block tracking-wider uppercase">Wallet Balance</span>
+              <span id="customer-wallet-balance" class="text-xl font-extrabold text-slate-100 font-display block mt-0.5">GH₵ 47.50</span>
+            </div>
+          </div>
+
+          <!-- Dynamic sidebar list navigation menu -->
+          <div class="bg-slate-900/40 border border-slate-800 p-2.5 rounded-2xl space-y-1">
+            <button class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-lg bg-blue-600/10 text-blue-400"><i data-lucide="layout-dashboard" class="w-4 h-4"></i> Overview</button>
+            <button onclick="showPage('landing')" class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition duration-150"><i data-lucide="shopping-cart" class="w-4 h-4"></i> Buy Data</button>
+            <button class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition duration-150"><i data-lucide="history" class="w-4 h-4"></i> Order History</button>
+            <button class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition duration-150"><i data-lucide="plus-circle" class="w-4 h-4"></i> Top Up Wallet</button>
+            <button class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition duration-150"><i data-lucide="gift" class="w-4 h-4"></i> Referrals</button>
+            <button class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded-lg text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition duration-150"><i data-lucide="sliders" class="w-4 h-4"></i> Settings</button>
+          </div>
+        </div>
+
+        <!-- Main dashboard content section -->
+        <div class="space-y-6">
+          
+          <div>
+            <h2 class="font-display font-extrabold text-2xl text-white">Good morning, Mohammed Faisal 👋</h2>
+            <p class="text-slate-500 text-sm mt-0.5">Here is an overview of your consumer account details.</p>
+          </div>
+
+          <!-- Stat KPI metrics grid cards -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="bg-slate-900/40 border border-slate-800 p-5 rounded-2xl">
+              <span class="text-xs text-slate-500 font-medium">Total Spent (This Month)</span>
+              <div class="font-display font-extrabold text-2xl text-blue-500 mt-1">GH₵ 182</div>
+              <div class="text-[10px] text-emerald-400 font-semibold mt-1 flex items-center gap-1">
+                <i data-lucide="trending-up" class="w-3 h-3"></i> ↑ 12% vs last month
+              </div>
+            </div>
+            <div class="bg-slate-900/40 border border-slate-800 p-5 rounded-2xl">
+              <span class="text-xs text-slate-500 font-medium">Cashback Earned</span>
+              <div class="font-display font-extrabold text-2xl text-emerald-500 mt-1">GH₵ 1.82</div>
+              <span class="text-[10px] text-slate-500 block mt-1">Accumulated at 1% rate</span>
+            </div>
+            <div class="bg-slate-900/40 border border-slate-800 p-5 rounded-2xl">
+              <span class="text-xs text-slate-500 font-medium">Orders Completed</span>
+              <div class="font-display font-extrabold text-2xl text-white mt-1">14</div>
+              <div class="text-[10px] text-slate-500 font-semibold mt-1 flex items-center gap-1">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-400"></i> All orders active
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Buy & loyalty meters layout -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <!-- Quick buy selector buttons -->
+            <div class="lg:col-span-2 bg-slate-900/40 border border-slate-800 p-6 rounded-3xl space-y-4">
+              <div class="flex justify-between items-center mb-2">
+                <h3 class="text-sm font-bold text-slate-200">Quick Buy Presets</h3>
+                <span class="text-xs text-blue-500 hover:underline cursor-pointer" onclick="showPage('landing')">See All Bundles</span>
+              </div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="bg-[#FFCB00]/10 border border-[#FFCB00]/25 rounded-xl p-3 text-center cursor-pointer transition hover:scale-[1.03] duration-150" onclick="toast('Quick Ordering 1GB MTN...')">
+                  <span class="block text-sm font-extrabold text-slate-200 font-display">1 GB</span>
+                  <span class="text-[10px] font-bold text-[#FFCB00] mt-1 block">GH₵ 5.20</span>
+                </div>
+                <div class="bg-[#FFCB00]/10 border border-[#FFCB00]/25 rounded-xl p-3 text-center cursor-pointer transition hover:scale-[1.03] duration-150" onclick="toast('Quick Ordering 5GB MTN...')">
+                  <span class="block text-sm font-extrabold text-slate-200 font-display">5 GB</span>
+                  <span class="text-[10px] font-bold text-[#FFCB00] mt-1 block">GH₵ 23.50</span>
+                </div>
+                <div class="bg-[#FFCB00]/10 border border-[#FFCB00]/25 rounded-xl p-3 text-center cursor-pointer transition hover:scale-[1.03] duration-150" onclick="toast('Quick Ordering 10GB MTN...')">
+                  <span class="block text-sm font-extrabold text-slate-200 font-display">10 GB</span>
+                  <span class="text-[10px] font-bold text-[#FFCB00] mt-1 block">GH₵ 42.00</span>
+                </div>
+                <div class="bg-[#FFCB00]/10 border border-[#FFCB00]/25 rounded-xl p-3 text-center cursor-pointer transition hover:scale-[1.03] duration-150" onclick="toast('Quick Ordering 20GB MTN...')">
+                  <span class="block text-sm font-extrabold text-slate-200 font-display">20 GB</span>
+                  <span class="text-[10px] font-bold text-[#FFCB00] mt-1 block">GH₵ 76.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Loyalty Level Progress bar -->
+            <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-3xl flex flex-col justify-between">
+              <div class="flex justify-between items-start">
+                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider block">Loyalty Level</span>
+                <span class="text-[10px] font-bold text-slate-300 bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700">Silver 🥈</span>
+              </div>
+              <div class="my-4">
+                <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
+                  <span>680 / 1,000 Points</span>
+                  <span class="text-blue-400">68%</span>
+                </div>
+                <div class="w-full bg-slate-950 rounded-full h-2">
+                  <div class="bg-gradient-to-r from-blue-600 to-blue-400 h-2 rounded-full" style="width: 68%"></div>
+                </div>
+              </div>
+              <span class="text-[10px] text-slate-500 leading-normal">Need 320 more points to reach Gold tier (unlocking 10% cashbacks).</span>
+            </div>
+
+            <!-- STUDY COMMENT: Data Subscription Manager Card. Users can choose a package, phone, and cycle interval (daily/weekly/monthly) to auto-deliver data from wallet balance. -->
+            <div class="w-full lg:col-span-4 bg-slate-900/40 border border-slate-800 rounded-3xl p-6 space-y-6">
+              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                  <h3 class="font-bold text-slate-200 text-sm flex items-center gap-2">
+                    <i data-lucide="refresh-cw" class="w-4 h-4 text-emerald-400"></i> Auto-Renewal Data Subscriptions
+                  </h3>
+                  <p class="text-[10px] text-slate-500 mt-0.5">Subscribe to auto-delivered data plans directly from your wallet balance.</p>
+                </div>
+                <div class="flex gap-2">
+                  <button onclick="simulateSubscriptionRenewal()" class="bg-emerald-600/10 border border-emerald-500/20 text-emerald-400 font-bold px-3 py-1.5 rounded-xl text-[10px] hover:bg-emerald-500/20 active:scale-95 transition-all flex items-center gap-1">
+                    <i data-lucide="play" class="w-3 h-3"></i> Simulate Auto-Renewal
+                  </button>
+                  <button onclick="topUpWalletSim(20)" class="bg-blue-600/10 border border-blue-500/20 text-blue-400 font-bold px-3 py-1.5 rounded-xl text-[10px] hover:bg-blue-500/20 active:scale-95 transition-all flex items-center gap-1">
+                    <i data-lucide="plus-circle" class="w-3 h-3"></i> Load wallet
+                  </button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Subscribe Form -->
+                <div class="space-y-4 bg-slate-950/40 p-4 rounded-2xl border border-slate-850">
+                  <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider">Create Subscription</h4>
+                  <div class="grid grid-cols-2 gap-3">
+                    <div>
+                      <label class="block text-[10px] font-semibold text-slate-500 mb-1">Network</label>
+                      <select id="sub-network" class="w-full bg-[#0B0F19] text-white border border-slate-800 rounded-lg p-2 text-xs focus:outline-none focus:border-blue-500 cursor-pointer">
+                        <option>MTN</option>
+                        <option>Telecel</option>
+                        <option>AirtelTigo</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-[10px] font-semibold text-slate-500 mb-1">Package</label>
+                      <select id="sub-bundle" class="w-full bg-[#0B0F19] text-white border border-slate-800 rounded-lg p-2 text-xs focus:outline-none focus:border-blue-500 cursor-pointer">
+                        <option value="5.20">1 GB (GH₵ 5.20)</option>
+                        <option value="9.50">2 GB (GH₵ 9.50)</option>
+                        <option value="23.50">5 GB (GH₵ 23.50)</option>
+                        <option value="42.00">10 GB (GH₵ 42.00)</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 gap-3">
+                    <div>
+                      <label class="block text-[10px] font-semibold text-slate-500 mb-1">Interval</label>
+                      <select id="sub-interval" class="w-full bg-[#0B0F19] text-white border border-slate-800 rounded-lg p-2 text-xs focus:outline-none focus:border-blue-500 cursor-pointer">
+                        <option>Daily</option>
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-[10px] font-semibold text-slate-500 mb-1">Recipient Number</label>
+                      <input type="tel" id="sub-phone" placeholder="0244 123 456" class="w-full bg-[#0B0F19] text-white border border-slate-800 rounded-lg p-2 text-xs focus:outline-none focus:border-blue-500">
+                    </div>
+                  </div>
+                  <button onclick="createSubscription()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-xl text-xs active:scale-95 transition-all flex items-center justify-center gap-1">
+                    <i data-lucide="plus" class="w-4 h-4"></i> Subscribe Plan
+                  </button>
+                </div>
+
+                <!-- Active Plan Status -->
+                <div class="space-y-4 bg-slate-950/40 p-4 rounded-2xl border border-slate-850 flex flex-col justify-between">
+                  <div>
+                    <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">Active Plan Status</h4>
+                    <div id="sub-status-container" class="space-y-2.5">
+                      <!-- Standard placeholder when no subscription is running -->
+                      <div class="text-center py-6 text-slate-500 text-xs">
+                        <i data-lucide="info" class="w-8 h-8 text-slate-600 mx-auto mb-2 block"></i>
+                        <span>No active subscription. Create a plan above using your wallet balance.</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="text-[10px] text-slate-500 leading-normal border-t border-slate-850 pt-2 flex items-start gap-1">
+                    <i data-lucide="help-circle" class="w-3.5 h-3.5 text-slate-600 shrink-0 mt-0.5"></i>
+                    <span>Subscriptions renew automatically. If your wallet balance drops below the pricing tier, the subscription is automatically terminated.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Transaction Table logs -->
+          <div class="bg-slate-900/40 border border-slate-800 rounded-3xl p-6">
+            <h3 class="font-bold text-slate-200 text-sm mb-4">Recent Transactions Log</h3>
+            <div class="space-y-4" id="customer-transactions-list">
+              <!-- Item 1 -->
+              <div class="flex items-center gap-4 py-3 border-b border-slate-850 last:border-b-0">
+                <div class="w-9 h-9 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                  <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                </div>
+                <div class="flex-grow min-w-0">
+                  <h4 class="text-xs font-bold text-slate-200 truncate">5GB MTN Data — 0244 567 890</h4>
+                  <p class="text-[10px] text-slate-500 mt-0.5">Today, 9:42 AM · Delivered via VTU API 1</p>
+                </div>
+                <div class="text-right shrink-0">
+                  <span class="text-xs font-bold text-rose-500 block">-GH₵23.50</span>
+                  <span class="inline-flex text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full mt-1 border border-emerald-500/10">Delivered</span>
+                </div>
+              </div>
+              <!-- Item 2 -->
+              <div class="flex items-center gap-4 py-3 border-b border-slate-850 last:border-b-0">
+                <div class="w-9 h-9 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center shrink-0">
+                  <i data-lucide="plus" class="w-4 h-4"></i>
+                </div>
+                <div class="flex-grow min-w-0">
+                  <h4 class="text-xs font-bold text-slate-200 truncate">MoMo Wallet Top-Up</h4>
+                  <p class="text-[10px] text-slate-500 mt-0.5">Yesterday, 3:15 PM · Paystack gateway</p>
+                </div>
+                <div class="text-right shrink-0">
+                  <span class="text-xs font-bold text-emerald-500 block">+GH₵50.00</span>
+                  <span class="inline-flex text-[9px] font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-full mt-1 border border-blue-500/10">Credited</span>
+                </div>
+              </div>
+              <!-- Item 3 -->
+              <div class="flex items-center gap-4 py-3 border-b border-slate-850 last:border-b-0">
+                <div class="w-9 h-9 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                  <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+                </div>
+                <div class="flex-grow min-w-0">
+                  <h4 class="text-xs font-bold text-slate-200 truncate">2GB MTN Data — 0277 123 456</h4>
+                  <p class="text-[10px] text-slate-500 mt-0.5">Jun 1, 11:05 AM · Delivered via VTU API 1</p>
+                </div>
+                <div class="text-right shrink-0">
+                  <span class="text-xs font-bold text-rose-500 block">-GH₵9.50</span>
+                  <span class="inline-flex text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full mt-1 border border-emerald-500/10">Delivered</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Referral code sharing widget -->
+          <div class="bg-gradient-to-r from-blue-900/40 via-blue-800/20 to-slate-900/40 border border-blue-800/40 p-6 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="space-y-1 max-w-lg">
+              <h4 class="text-sm font-bold text-slate-100 flex items-center gap-1.5"><i data-lucide="party-popper" class="w-4 h-4 text-blue-400"></i> Invite Friends & Earn Cash</h4>
+              <p class="text-xs text-slate-400 leading-normal">Receive GH₵ 2.00 instantly added to your wallet balance for every friend who registers and processes their first automated VTU package.</p>
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+              <div onclick="toast('Referral code copied: FAY20')" class="bg-slate-950/80 hover:bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 font-display font-extrabold text-sm text-blue-400 tracking-widest cursor-pointer select-all select-none text-center">
+                FAY20
+              </div>
+              <div class="text-right hidden sm:block">
+                <span class="text-xs text-slate-400 block font-medium">8 Successful Invites</span>
+                <span class="text-[10px] text-emerald-400 font-bold block mt-0.5">GH₵ 16.00 Earned</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ===== AGENT PORTAL ===== -->
+    <!-- STUDY COMMENT: Page section for reseller agents. Features high contrast header banner and dual action columns. -->
+    <div class="page-container hidden flex-grow animate-fade-in" id="page-agent">
+      
+      <!-- Agent Header banner -->
+      <div class="bg-gradient-to-r from-[#0C1220] to-[#121A2E] border-b border-slate-800 px-4 md:px-8 py-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div>
+            <span class="text-[10px] font-bold text-blue-400 uppercase tracking-widest block mb-1">Agent Portal Console</span>
+            <h2 class="font-display font-extrabold text-2xl text-white">Rabiyatu Adamu</h2>
+            <div class="flex items-center gap-3 text-xs text-slate-500 mt-1">
+              <span>Agent ID: <b class="font-mono text-slate-300">DBG-A00124</b></span>
+              <span>•</span>
+              <span>Joined Jan 2026</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 bg-[#FFF8E6]/5 border border-[#B7791F]/20 px-4 py-2 rounded-xl">
+            <div class="w-8 h-8 rounded-lg bg-[#B7791F]/10 flex items-center justify-center text-[#B7791F]">
+              <i data-lucide="award" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <span class="text-[9px] font-bold text-[#B7791F] uppercase block tracking-wider">Agent Level</span>
+              <span class="text-xs font-bold text-slate-200">Gold Reseller 🥇</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent metrics grids -->
+      <div class="max-w-7xl mx-auto px-4 md:px-8 py-8 space-y-6">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-2xl">
+            <span class="text-xs text-slate-500 font-medium">Monthly Sales (Jun)</span>
+            <div class="font-display font-extrabold text-xl text-white mt-1">GH₵ 3,840</div>
+            <span class="text-[10px] text-emerald-400 font-semibold block mt-0.5">↑ 22% vs May</span>
+          </div>
+          <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-2xl">
+            <span class="text-xs text-slate-500 font-medium">Earned Commission</span>
+            <div class="font-display font-extrabold text-xl text-emerald-400 mt-1">GH₵ 384</div>
+            <span class="text-[10px] text-slate-500 block mt-0.5">At 10% Gold rate</span>
+          </div>
+          <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-2xl">
+            <span class="text-xs text-slate-500 font-medium">Active Sub-Agents</span>
+            <div class="font-display font-extrabold text-xl text-white mt-1">8</div>
+            <span class="text-[10px] text-slate-500 block mt-0.5">3 online today</span>
+          </div>
+          <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-2xl">
+            <span class="text-xs text-slate-500 font-medium">Customers Served</span>
+            <div class="font-display font-extrabold text-xl text-blue-500 mt-1">247</div>
+            <span class="text-[10px] text-slate-500 block mt-0.5">↑ 31 new this week</span>
+          </div>
+        </div>
+
+        <!-- Columns layout splits performance and payouts -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <div class="space-y-6">
+            <!-- Sales performance split meter -->
+            <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-3xl space-y-4">
+              <h3 class="text-sm font-bold text-slate-200">Volume Sales Split</h3>
+              <div class="space-y-3.5">
+                <!-- MTN bar -->
+                <div>
+                  <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
+                    <span>MTN Ghana</span>
+                    <span class="text-yellow-500">72%</span>
+                  </div>
+                  <div class="w-full bg-slate-950 rounded-full h-1.5">
+                    <div class="bg-[#FFCB00] h-1.5 rounded-full" style="width: 72%"></div>
+                  </div>
+                </div>
+                <!-- Telecel bar -->
+                <div>
+                  <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
+                    <span>Telecel</span>
+                    <span class="text-red-500">18%</span>
+                  </div>
+                  <div class="w-full bg-slate-950 rounded-full h-1.5">
+                    <div class="bg-red-600 h-1.5 rounded-full" style="width: 18%"></div>
+                  </div>
+                </div>
+                <!-- AirtelTigo bar -->
+                <div>
+                  <div class="flex justify-between text-xs font-semibold text-slate-400 mb-1">
+                    <span>AirtelTigo</span>
+                    <span class="text-rose-500">10%</span>
+                  </div>
+                  <div class="w-full bg-slate-950 rounded-full h-1.5">
+                    <div class="bg-rose-600 h-1.5 rounded-full" style="width: 10%"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reseller commission table logs -->
+            <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-3xl">
+              <h3 class="text-sm font-bold text-slate-200 mb-4">Commission Breakdown</h3>
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs text-left">
+                  <thead>
+                    <tr class="text-slate-500 border-b border-slate-800 pb-2">
+                      <th class="pb-2 font-medium">Bundle Package</th>
+                      <th class="pb-2 font-medium">Total Orders</th>
+                      <th class="pb-2 font-medium text-right">Commission</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-850">
+                    <tr class="hover:bg-slate-800/10">
+                      <td class="py-3 font-semibold text-slate-300">1GB MTN 7-Day</td>
+                      <td class="py-3 text-slate-400">312 sales</td>
+                      <td class="py-3 text-emerald-400 font-bold text-right font-mono">GH₵ 162.00</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/10">
+                      <td class="py-3 font-semibold text-slate-300">5GB MTN 30-Day</td>
+                      <td class="py-3 text-slate-400">88 sales</td>
+                      <td class="py-3 text-emerald-400 font-bold text-right font-mono">GH₵ 207.00</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/10">
+                      <td class="py-3 font-semibold text-slate-300">2GB Telecel 14-Day</td>
+                      <td class="py-3 text-slate-400">41 sales</td>
+                      <td class="py-3 text-emerald-400 font-bold text-right font-mono">GH₵ 43.00</td>
+                    </tr>
+                    <tr class="hover:bg-slate-800/10">
+                      <td class="py-3 font-semibold text-slate-300">10GB MTN 30-Day</td>
+                      <td class="py-3 text-slate-400">9 sales</td>
+                      <td class="py-3 text-emerald-400 font-bold text-right font-mono">GH₵ 38.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Sub agent networks manager list -->
+            <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-3xl space-y-4">
+              <div class="flex justify-between items-center">
+                <h3 class="text-sm font-bold text-slate-200">My Sub-Agents</h3>
+                <button onclick="toast('Sub-agent registration link copied!')" class="text-[10px] font-bold text-blue-400 bg-blue-600/10 border border-blue-500/25 px-3 py-1 rounded-full hover:bg-blue-500/20 active:scale-95 transition-all">
+                  + Invite Agent
+                </button>
+              </div>
+              <div class="space-y-3">
+                <div class="flex items-center gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-850">
+                  <div class="w-8 h-8 rounded-full bg-blue-600/15 text-blue-400 flex items-center justify-center font-bold text-xs">AB</div>
+                  <div class="flex-grow min-w-0">
+                    <h4 class="text-xs font-bold text-slate-200 truncate">Patrick Annor</h4>
+                    <span class="text-[9px] text-slate-500 block mt-0.5">GH₵ 420.00 volume this month</span>
+                  </div>
+                  <span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/10">Active</span>
+                </div>
+                <div class="flex items-center gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-850">
+                  <div class="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-xs">KA</div>
+                  <div class="flex-grow min-w-0">
+                    <h4 class="text-xs font-bold text-slate-200 truncate">Abena Afrakomah</h4>
+                    <span class="text-[9px] text-slate-500 block mt-0.5">GH₵ 310.00 volume this month</span>
+                  </div>
+                  <span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/10">Active</span>
+                </div>
+                <div class="flex items-center gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-850">
+                  <div class="w-8 h-8 rounded-full bg-purple-500/15 text-purple-400 flex items-center justify-center font-bold text-xs">YA</div>
+                  <div class="flex-grow min-w-0">
+                    <h4 class="text-xs font-bold text-slate-200 truncate">Al-Haqq</h4>
+                    <span class="text-[9px] text-slate-500 block mt-0.5">GH₵ 85.00 volume this month</span>
+                  </div>
+                  <span class="text-[9px] font-bold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/10">Low Activity</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Available payout withdrawal requests -->
+            <div class="bg-slate-900/60 border border-slate-800 p-6 rounded-3xl space-y-5">
+              <div>
+                <span class="text-xs text-slate-500 font-medium">Available Payout balance</span>
+                <div class="font-display font-extrabold text-3xl text-blue-500 mt-1">GH₵ 384.00</div>
+                <span class="text-[10px] text-slate-500 block mt-1">Automatic deposits linked to MTN MoMo: <b class="font-mono text-slate-400">0244 *** 890</b></span>
+              </div>
+              <div class="space-y-3">
+                <label class="block text-xs font-semibold text-slate-400">Withdrawal Amount</label>
+                <div class="flex gap-2">
+                  <input type="number" placeholder="Enter amount (min GH₵ 50)" class="flex-grow bg-[#0B0F19] text-white border border-slate-800 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-blue-500">
+                  <button onclick="toast('Withdrawal submitted! Processed in 2 hours.')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-5 rounded-xl text-xs whitespace-nowrap active:scale-95 transition">
+                    Request Payout
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ===== ADMIN PORTAL PANEL ===== -->
+    <!-- STUDY COMMENT: Double column left-side menu navigation frame. Full grid on desktop screen. -->
+    <div class="page-container hidden flex-grow" id="page-admin">
+      <div class="max-w-7xl mx-auto px-4 md:px-8 py-8 md:grid md:grid-cols-[200px_1fr] gap-8">
+        
+        <!-- Left admin console submenu -->
+        <div class="space-y-6 mb-8 md:mb-0">
+          <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-2xl text-center md:text-left">
+            <h4 class="text-xs font-extrabold text-slate-200 uppercase tracking-widest font-display">Admin Console</h4>
+            <span class="text-[9px] font-mono text-slate-500 mt-0.5 block">Version Release v1.02</span>
+          </div>
+
+          <!-- Section divisions for options -->
+          <div class="bg-slate-900/40 border border-slate-800 p-2.5 rounded-2xl space-y-4">
+            <div>
+              <span class="text-[9px] font-bold text-slate-500 block px-2.5 mb-1.5 uppercase tracking-wider">Main</span>
+              <div class="space-y-0.5">
+                <button class="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs font-semibold rounded-lg bg-blue-600/10 text-blue-400 text-left"><i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i> Dashboard</button>
+                <button class="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs font-medium rounded-lg text-slate-400 hover:bg-slate-850 hover:text-slate-200 text-left" onclick="toast('Orders view loaded')"><i data-lucide="receipt" class="w-3.5 h-3.5"></i> Orders Log</button>
+                <button class="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs font-medium rounded-lg text-slate-400 hover:bg-slate-850 hover:text-slate-200 text-left" onclick="toast('Customers manager loaded')"><i data-lucide="users" class="w-3.5 h-3.5"></i> Customers</button>
+              </div>
+            </div>
+            <div>
+              <span class="text-[9px] font-bold text-slate-500 block px-2.5 mb-1.5 uppercase tracking-wider">Finance</span>
+              <div class="space-y-0.5">
+                <button class="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs font-medium rounded-lg text-slate-400 hover:bg-slate-850 hover:text-slate-200 text-left" onclick="toast('Revenue streams loaded')"><i data-lucide="line-chart" class="w-3.5 h-3.5"></i> Revenue</button>
+                <button class="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs font-medium rounded-lg text-slate-400 hover:bg-slate-850 hover:text-slate-200 text-left" onclick="toast('Payout audits loaded')"><i data-lucide="wallet" class="w-3.5 h-3.5"></i> Payouts</button>
+              </div>
+            </div>
+            <div>
+              <span class="text-[9px] font-bold text-slate-500 block px-2.5 mb-1.5 uppercase tracking-wider">System</span>
+              <div class="space-y-0.5">
+                <button class="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs font-medium rounded-lg text-slate-400 hover:bg-slate-850 hover:text-slate-200 text-left" onclick="toast('Inventory manager loaded')"><i data-lucide="database" class="w-3.5 h-3.5"></i> Bundles</button>
+                <button class="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs font-medium rounded-lg text-slate-400 hover:bg-slate-850 hover:text-slate-200 text-left" onclick="toast('Provider gateways loaded')"><i data-lucide="server" class="w-3.5 h-3.5"></i> VTU Gateways</button>
+                <button class="w-full flex items-center gap-2 px-2.5 py-1.5 text-xs font-medium rounded-lg text-slate-400 hover:bg-slate-850 hover:text-slate-200 text-left" onclick="toast('Global broadcast loaded')"><i data-lucide="bell" class="w-3.5 h-3.5"></i> Broadcast</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main admin dashboard grid -->
+        <div class="space-y-6">
+          <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <h2 class="font-display font-extrabold text-2xl text-white">System Administration</h2>
+              <p class="text-slate-500 text-sm mt-0.5">Overview of live metrics, transactions, and VTU status.</p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <span class="text-xs text-slate-500 font-mono">Wednesday, Jun 3 2026</span>
+              <button onclick="toast('Report requested! Preparing download...')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-xl text-xs transition duration-150 transform hover:-translate-y-0.5 active:translate-y-0">
+                Export System Report
+              </button>
+            </div>
+          </div>
+
+          <!-- Alert Banner container -->
+          <div class="bg-amber-500/10 border border-amber-500/25 p-4 rounded-2xl flex items-center gap-3.5 text-xs text-amber-400">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/15 flex items-center justify-center shrink-0">
+              <i data-lucide="alert-triangle" class="w-4.5 h-4.5"></i>
+            </div>
+            <p class="leading-normal">
+              <strong>VTU Gateway Delays:</strong> 3 orders failed on Provider 1 (N-Sell) due to carrier API latency. Automatic failover routing to Provider 2 is currently active.
+            </p>
+          </div>
+
+          <!-- System KPI card list -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-2xl relative overflow-hidden">
+              <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Today's Revenue</span>
+              <div class="font-display font-extrabold text-2xl text-blue-500 mt-1">GH₵ 4,218</div>
+              <span class="text-[9px] text-emerald-400 font-semibold block mt-0.5">↑ 18% vs yesterday</span>
+            </div>
+            <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-2xl relative overflow-hidden">
+              <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Orders Placed</span>
+              <div class="font-display font-extrabold text-2xl text-emerald-500 mt-1">842</div>
+              <span class="text-[9px] text-emerald-400 font-semibold block mt-0.5">↑ 124 in last hour</span>
+            </div>
+            <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-2xl relative overflow-hidden">
+              <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Active Accounts</span>
+              <div class="font-display font-extrabold text-2xl text-white mt-1">1,247</div>
+              <span class="text-[9px] text-slate-500 font-semibold block mt-0.5">↑ 89 new signups</span>
+            </div>
+            <div class="bg-slate-900/40 border border-slate-800 p-4 rounded-2xl relative overflow-hidden">
+              <span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider block">Pending Payouts</span>
+              <div class="font-display font-extrabold text-2xl text-purple-500 mt-1">GH₵ 2,840</div>
+              <span class="text-[9px] text-slate-500 font-semibold block mt-0.5">14 Agents waiting</span>
+            </div>
+          </div>
+
+          <!-- Mid section: dynamic chart column and Service state column -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Dynamic chart box container -->
+            <div class="lg:col-span-2 bg-slate-900/40 border border-slate-800 p-6 rounded-3xl space-y-4">
+              <h3 class="text-sm font-bold text-slate-200">Revenue Stream (Last 7 Days)</h3>
+              <!-- Rendered dynamically via javascript -->
+              <div class="h-36 flex items-end justify-between gap-2.5 pb-2 pt-4 px-2" id="revenue-chart"></div>
+              <div class="flex justify-between text-[10px] text-slate-500 px-2 font-mono">
+                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+              </div>
+            </div>
+
+            <!-- Service state listing -->
+            <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-3xl space-y-4">
+              <h3 class="text-sm font-bold text-slate-200">Microservice Status</h3>
+              <div class="space-y-2.5 text-xs">
+                <div class="flex justify-between items-center py-1.5 border-b border-slate-850">
+                  <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> VTU Provider 1</span>
+                  <span class="text-[9px] font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/10">Latent</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-slate-850">
+                  <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> VTU Provider 2</span>
+                  <span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/10">Active</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-slate-850">
+                  <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Paystack Payment</span>
+                  <span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/10">Active</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-slate-850">
+                  <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> MTN VTU API</span>
+                  <span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/10">Active</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5">
+                  <span class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> WhatsApp Bot Node</span>
+                  <span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/10">Active</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Orders log table list -->
+          <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-3xl space-y-4">
+            <div class="flex justify-between items-center">
+              <h3 class="text-sm font-bold text-slate-200">Recent API Order Logs</h3>
+              <div class="flex gap-2">
+                <button onclick="toast('Orders filter applied')" class="text-[10px] font-bold text-slate-300 bg-slate-800 border border-slate-700 px-3 py-1 rounded-full hover:bg-slate-700 transition">Filter</button>
+                <button onclick="toast('Logs exported to CSV')" class="text-[10px] font-bold text-blue-400 bg-blue-600/10 border border-blue-500/20 px-3 py-1 rounded-full hover:bg-blue-500/20 transition">Export CSV</button>
+              </div>
+            </div>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left min-w-[500px]">
+                <thead>
+                  <tr class="text-slate-500 border-b border-slate-800 pb-2">
+                    <th class="pb-2 font-medium">Order ID</th>
+                    <th class="pb-2 font-medium">Customer Details</th>
+                    <th class="pb-2 font-medium">Package</th>
+                    <th class="pb-2 font-medium">Price</th>
+                    <th class="pb-2 font-medium">Status</th>
+                    <th class="pb-2 font-medium">Time</th>
+                    <th class="pb-2 font-medium text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-850">
+                  <tr class="hover:bg-slate-800/10">
+                    <td class="py-3 font-mono text-[10px] text-slate-500">#DBG-08812</td>
+                    <td class="py-3 font-semibold text-slate-300">Kwame Osei</td>
+                    <td class="py-3 text-slate-400">5GB MTN</td>
+                    <td class="py-3 font-semibold font-mono text-slate-300">GH₵23.50</td>
+                    <td class="py-3"><span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/10">Delivered</span></td>
+                    <td class="py-3 text-slate-500 text-[10px]">9:42 AM</td>
+                    <td class="py-3 text-center"><button onclick="toast('Details for #DBG-08812')" class="text-[9px] font-bold text-blue-400 hover:underline">View</button></td>
+                  </tr>
+                  <tr class="hover:bg-slate-800/10">
+                    <td class="py-3 font-mono text-[10px] text-slate-500">#DBG-08811</td>
+                    <td class="py-3 font-semibold text-slate-300">Godfred Yanney</td>
+                    <td class="py-3 text-slate-400">2GB Telecel</td>
+                    <td class="py-3 font-semibold font-mono text-slate-300">GH₵9.50</td>
+                    <td class="py-3"><span class="text-[9px] font-bold text-rose-500 bg-rose-500/10 px-2 py-0.5 rounded-full border border-rose-500/10">Failed</span></td>
+                    <td class="py-3 text-slate-500 text-[10px]">9:38 AM</td>
+                    <td class="py-3 text-center"><button onclick="toast('Refund issued for #DBG-08811')" class="text-[9px] font-bold text-rose-500 hover:underline">Refund</button></td>
+                  </tr>
+                  <tr class="hover:bg-slate-800/10">
+                    <td class="py-3 font-mono text-[10px] text-slate-500">#DBG-08810</td>
+                    <td class="py-3 font-semibold text-slate-300">Awal Mohammed</td>
+                    <td class="py-3 text-slate-400">10GB MTN</td>
+                    <td class="py-3 font-semibold font-mono text-slate-300">GH₵42.00</td>
+                    <td class="py-3"><span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/10">Delivered</span></td>
+                    <td class="py-3 text-slate-500 text-[10px]">9:31 AM</td>
+                    <td class="py-3 text-center"><button onclick="toast('Details for #DBG-08810')" class="text-[9px] font-bold text-blue-400 hover:underline">View</button></td>
+                  </tr>
+                  <tr class="hover:bg-slate-800/10">
+                    <td class="py-3 font-mono text-[10px] text-slate-500">#DBG-08809</td>
+                    <td class="py-3 font-semibold text-slate-300">Esinam Jessica</td>
+                    <td class="py-3 text-slate-400">1GB AirtelTigo</td>
+                    <td class="py-3 font-semibold font-mono text-slate-300">GH₵5.20</td>
+                    <td class="py-3"><span class="text-[9px] font-bold text-amber-500 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/10">Processing</span></td>
+                    <td class="py-3 text-slate-500 text-[10px]">9:29 AM</td>
+                    <td class="py-3 text-center"><button onclick="toast('Retrying package dispatch...')" class="text-[9px] font-bold text-amber-500 hover:underline">Retry</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Bottom grid section: top agents list + broadcast forms -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            <!-- Top agents rank list -->
+            <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-3xl">
+              <h3 class="text-sm font-bold text-slate-200 mb-4">Top Performing Resellers</h3>
+              <table class="w-full text-xs text-left">
+                <thead>
+                  <tr class="text-slate-500 border-b border-slate-800 pb-2">
+                    <th class="pb-2 font-medium">Agent</th>
+                    <th class="pb-2 font-medium">Sales Volume</th>
+                    <th class="pb-2 font-medium">Earnings</th>
+                    <th class="pb-2 font-medium text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-850">
+                  <tr class="hover:bg-slate-850/15">
+                    <td class="py-2.5 font-semibold text-slate-300">Rabiyatu Adamu</td>
+                    <td class="py-2.5 font-mono">GH₵3,840</td>
+                    <td class="py-2.5 text-emerald-400 font-bold font-mono">GH₵384</td>
+                    <td class="py-2.5 text-center"><button onclick="toast('Viewing Agent Profiling...')" class="text-[9px] font-bold text-blue-400 hover:underline">View</button></td>
+                  </tr>
+                  <tr class="hover:bg-slate-850/15">
+                    <td class="py-2.5 font-semibold text-slate-300">Patrick Annor</td>
+                    <td class="py-2.5 font-mono">GH₵2,910</td>
+                    <td class="py-2.5 text-emerald-400 font-bold font-mono">GH₵262</td>
+                    <td class="py-2.5 text-center"><button onclick="toast('Viewing Agent Profiling...')" class="text-[9px] font-bold text-blue-400 hover:underline">View</button></td>
+                  </tr>
+                  <tr class="hover:bg-slate-850/15">
+                    <td class="py-2.5 font-semibold text-slate-300">Abena Afrakomah</td>
+                    <td class="py-2.5 font-mono">GH₵2,320</td>
+                    <td class="py-2.5 text-emerald-400 font-bold font-mono">GH₵209</td>
+                    <td class="py-2.5 text-center"><button onclick="toast('Viewing Agent Profiling...')" class="text-[9px] font-bold text-blue-400 hover:underline">View</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Broadcast communications manager forms -->
+            <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-3xl space-y-4">
+              <div>
+                <h3 class="text-sm font-bold text-slate-200">Global Broadcast Center</h3>
+                <p class="text-[10px] text-slate-500 mt-0.5">Send custom message alerts to client mobile groups.</p>
+              </div>
+              <div class="space-y-3">
+                <select class="w-full bg-[#0B0F19] text-white border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-blue-500 appearance-none cursor-pointer">
+                  <option>All Active Users (500)</option>
+                  <option>Active Resellers Only (350)</option>
+                  <option>Inactive 30+ Days (20)</option>
+                </select>
+                <textarea rows="3" placeholder="Type notification broadcast message body..." class="w-full bg-[#0B0F19] text-white border border-slate-800 rounded-xl p-3 text-xs focus:outline-none focus:border-blue-500"></textarea>
+                <div class="flex gap-2">
+                  <button onclick="toast('Pre-delivery check verified')" class="flex-grow bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2.5 rounded-xl text-xs active:scale-95 transition">
+                    Preview Alert
+                  </button>
+                  <button onclick="toast('Broadcast dispatched to group successfully!')" class="flex-grow bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs active:scale-95 transition">
+                    Send Broadcast
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Inventory items creation card list -->
+          <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-3xl space-y-4">
+            <h3 class="text-sm font-bold text-slate-200">Bundle Inventory Management</h3>
+            
+            <div class="flex flex-col sm:flex-row gap-3">
+              <input type="text" placeholder="Package name description" class="flex-grow bg-[#0B0F19] text-white border border-slate-800 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-blue-500">
+              <input type="number" placeholder="Wholesale price (GH₵)" class="w-full sm:w-40 bg-[#0B0F19] text-white border border-slate-800 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-blue-500">
+              <input type="number" placeholder="Retail pricing (GH₵)" class="w-full sm:w-40 bg-[#0B0F19] text-white border border-slate-800 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-blue-500">
+              <button onclick="toast('Added new packet to inventory successfully!')" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-6 py-2.5 rounded-xl text-xs shrink-0 active:scale-95 transition">
+                Add Bundle
+              </button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left min-w-[500px]">
+                <thead>
+                  <tr class="text-slate-500 border-b border-slate-800 pb-2">
+                    <th class="pb-2 font-medium">Bundle Description</th>
+                    <th class="pb-2 font-medium">Carrier</th>
+                    <th class="pb-2 font-medium">Wholesale Price</th>
+                    <th class="pb-2 font-medium">Retail Pricing</th>
+                    <th class="pb-2 font-medium">Margin profit</th>
+                    <th class="pb-2 font-medium text-center">Status Toggle</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-850">
+                  <tr class="hover:bg-slate-800/10">
+                    <td class="py-3 font-semibold text-slate-300">1GB 7-day</td>
+                    <td class="py-3 text-slate-400">MTN</td>
+                    <td class="py-3 font-mono">GH₵4.50</td>
+                    <td class="py-3 font-mono">GH₵5.20</td>
+                    <td class="py-3 text-emerald-400 font-bold font-mono">15.6%</td>
+                    <td class="py-3 text-center">
+                      <label class="inline-flex relative items-center cursor-pointer">
+                        <input type="checkbox" checked class="sr-only peer" onchange="toast('Toggled bundle status!')">
+                        <div class="w-8 h-4.5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-blue-600"></div>
+                      </label>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-800/10">
+                    <td class="py-3 font-semibold text-slate-300">5GB 30-day</td>
+                    <td class="py-3 text-slate-400">MTN</td>
+                    <td class="py-3 font-mono">GH₵20.00</td>
+                    <td class="py-3 font-mono">GH₵23.50</td>
+                    <td class="py-3 text-emerald-400 font-bold font-mono">17.5%</td>
+                    <td class="py-3 text-center">
+                      <label class="inline-flex relative items-center cursor-pointer">
+                        <input type="checkbox" checked class="sr-only peer" onchange="toast('Toggled bundle status!')">
+                        <div class="w-8 h-4.5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-blue-600"></div>
+                      </label>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-800/10">
+                    <td class="py-3 font-semibold text-slate-300">2GB 14-day</td>
+                    <td class="py-3 text-slate-400">Telecel</td>
+                    <td class="py-3 font-mono">GH₵8.20</td>
+                    <td class="py-3 font-mono">GH₵9.50</td>
+                    <td class="py-3 text-emerald-400 font-bold font-mono">15.9%</td>
+                    <td class="py-3 text-center">
+                      <label class="inline-flex relative items-center cursor-pointer">
+                        <input type="checkbox" checked class="sr-only peer" onchange="toast('Toggled bundle status!')">
+                        <div class="w-8 h-4.5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-blue-600"></div>
+                      </label>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-slate-800/10">
+                    <td class="py-3 font-semibold text-slate-300">10GB 30-day</td>
+                    <td class="py-3 text-slate-400">AirtelTigo</td>
+                    <td class="py-3 font-mono">GH₵36.00</td>
+                    <td class="py-3 font-mono">GH₵42.00</td>
+                    <td class="py-3 text-emerald-400 font-bold font-mono">16.7%</td>
+                    <td class="py-3 text-center">
+                      <label class="inline-flex relative items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" onchange="toast('Toggled bundle status!')">
+                        <div class="w-8 h-4.5 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-blue-600"></div>
+                      </label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Spacer at bottom to prevent footer overlapping elements on scroll -->
+    <div class="h-20 md:h-8"></div>
+
+    <!-- ===== MOBILE BOTTOM NAVIGATION BAR ===== -->
+    <!-- STUDY COMMENT: Fixed bottom bar styling optimized specifically for screen viewports less than 'md'. -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 bg-[#0F1626]/90 backdrop-blur-lg border-t border-slate-800/80 py-2.5 px-4 flex justify-around items-center md:hidden shadow-2xl">
+      <button class="nav-tab flex flex-col items-center gap-1 text-[10px] text-slate-400 transition" data-page="landing" onclick="showPage('landing')">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span>Home</span>
+      </button>
+      <button class="nav-tab flex flex-col items-center gap-1 text-[10px] text-slate-400 transition" data-page="customer" onclick="showPage('customer')">
+        <i data-lucide="smartphone" class="w-5 h-5"></i>
+        <span>Account</span>
+      </button>
+      <button class="nav-tab flex flex-col items-center gap-1 text-[10px] text-slate-400 transition" data-page="agent" onclick="showPage('agent')">
+        <i data-lucide="users" class="w-5 h-5"></i>
+        <span>Reseller</span>
+      </button>
+      <button class="nav-tab flex flex-col items-center gap-1 text-[10px] text-slate-400 transition" data-page="admin" onclick="showPage('admin')">
+        <i data-lucide="settings" class="w-5 h-5"></i>
+        <span>Admin</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <!-- Dynamic system toast message -->
+  <div class="toast fixed bottom-24 md:bottom-8 right-8 z-[9999] bg-slate-950/90 border border-slate-800/80 backdrop-blur-md text-white py-3.5 px-5 rounded-2xl shadow-2xl flex items-center transition-all duration-300 transform translate-y-20 opacity-0 text-xs font-semibold" id="toast"></div>
+
+  <script>
+    // STUDY COMMENT: Global selection states initialized on window load.
+    window._selectedNetwork = 'MTN';
+    window._selectedBundle = '1 GB';
+    window._selectedBundlePrice = 'GH₵ 5.20';
+
+    // STUDY COMMENT: Page router function. Hides/shows container views dynamically and syncs style classes for active state tabs.
+    function showPage(name) {
+      // Hide all page layout blocks
+      document.querySelectorAll('.page-container').forEach(p => {
+        p.classList.add('hidden');
+        p.classList.remove('block');
+      });
+      // Show selected container
+      const targetPage = document.getElementById('page-' + name);
+      if (targetPage) {
+        targetPage.classList.remove('hidden');
+        targetPage.classList.add('block');
+      }
+
+      // Sync active classes for tabs (both top desktop bar and mobile bottom bar)
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        const pageName = tab.getAttribute('data-page');
+        if (pageName === name) {
+          // Add active styles (glowing blue backdrops and tags)
+          tab.classList.add('bg-blue-600/10', 'text-blue-400', 'font-semibold');
+          tab.classList.remove('text-slate-400');
+        } else {
+          // Revert normal styles
+          tab.classList.remove('bg-blue-600/10', 'text-blue-400', 'font-semibold');
+          tab.classList.add('text-slate-400');
+        }
+      });
+
+      // Hydrate Lucide SVG items on dynamic render
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    // STUDY COMMENT: Sets network selections. Adjusts border borders and colors on network cards.
+    function selectNetwork(el, name) {
+      document.querySelectorAll('#networks .network-card').forEach(card => {
+        card.classList.remove('border-blue-500', 'bg-blue-500/10', 'text-blue-400', 'ring-2', 'ring-blue-500/20');
+        card.classList.add('border-slate-800', 'bg-slate-900/40', 'text-slate-400');
+      });
+      
+      el.classList.remove('border-slate-800', 'bg-slate-900/40', 'text-slate-400');
+      el.classList.add('border-blue-500', 'bg-blue-500/10', 'text-blue-400', 'ring-2', 'ring-blue-500/20');
+      
+      window._selectedNetwork = name;
+      updateOrderRecap();
+    }
+
+    // STUDY COMMENT: Sets active bundle sizes and updates checkout prices dynamically.
+    function selectBundle(el, size, price) {
+      document.querySelectorAll('#bundles .bundle-card').forEach(card => {
+        card.classList.remove('border-blue-500', 'bg-blue-500/10', 'text-blue-400', 'ring-2', 'ring-blue-500/20');
+        card.classList.add('border-slate-800', 'bg-slate-900/40', 'text-slate-400');
+      });
+      
+      el.classList.remove('border-slate-800', 'bg-slate-900/40', 'text-slate-400');
+      el.classList.add('border-blue-500', 'bg-blue-500/10', 'text-blue-400', 'ring-2', 'ring-blue-500/20');
+      
+      window._selectedBundle = size;
+      window._selectedBundlePrice = price;
+      updateOrderRecap();
+    }
+
+    // STUDY COMMENT: Logic synchronizing values within checkout card details. Includes mock cashback math.
+    function updateOrderRecap() {
+      document.getElementById('order-bundle').textContent = window._selectedBundle + ' - ' + window._selectedNetwork;
+      document.getElementById('order-price').textContent = window._selectedBundlePrice;
+      
+      // Compute 1% cashback value dynamically
+      const priceFloat = parseFloat(window._selectedBundlePrice.replace(/[^0-9.]/g, '')) || 0;
+      const cashbackFloat = (priceFloat * 0.01).toFixed(2);
+      document.getElementById('order-cashback').textContent = '+ GH₵ ' + cashbackFloat;
+    }
+
+    // STUDY COMMENT: Dispatches orders after phone verification.
+    function placeOrder() {
+      const numberInput = document.getElementById('phone-input').value.trim();
+      if (!numberInput) {
+        toast('Verification Error: Input a phone number.');
+        return;
+      }
+      toast('⚡ Payment successful! Dispatching data package...');
+    }
+
+    // STUDY COMMENT: Dynamic toast alerts with custom layouts.
+    function toast(message) {
+      const box = document.getElementById('toast');
+      box.innerHTML = `<i data-lucide="info" class="w-4 h-4 mr-2 text-blue-400"></i> ${message}`;
+      box.classList.remove('translate-y-20', 'opacity-0');
+      box.classList.add('translate-y-0', 'opacity-100');
+      
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+
+      // Hide toast automatically after 3 seconds
+      setTimeout(() => {
+        box.classList.remove('translate-y-0', 'opacity-100');
+        box.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    // STUDY COMMENT: Custom dynamic revenue history SVG bar rendering. Calculates height ratios relative to max.
+    const revenueData = [3100, 3800, 2900, 4200, 3600, 5100, 4218];
+    const chartArea = document.getElementById('revenue-chart');
+    if (chartArea) {
+      const maxValue = Math.max(...revenueData);
+      revenueData.forEach((val, idx) => {
+        // Create chart bar column
+        const column = document.createElement('div');
+        column.className = 'group relative flex flex-col justify-end items-center h-full flex-grow max-w-[28px]';
+        
+        // Dynamic inner bar height
+        const barHeight = Math.round((val / maxValue) * 100);
+        
+        column.innerHTML = `
+          <div class="absolute -top-7 scale-0 group-hover:scale-100 bg-slate-950 text-[9px] font-bold py-1 px-1.5 rounded border border-slate-800 text-blue-400 transition-all z-20 whitespace-nowrap">
+            GH₵ ${val.toLocaleString()}
+          </div>
+          <div class="w-full bg-gradient-to-t from-blue-600/70 to-blue-500 group-hover:from-blue-500 group-hover:to-emerald-400 rounded-t-md transition-all duration-500 ease-out shadow-lg shadow-blue-500/10 cursor-pointer" style="height: ${barHeight}%"></div>
+        `;
+        
+        chartArea.appendChild(column);
+      });
+    }
+
+    // STUDY COMMENT: Global states for wallet balance and active subscription
+    window._walletBalance = 47.50;
+    window._activeSubscription = null;
+
+    // STUDY COMMENT: Dynamic wallet balance synchronizer. Updates the user dashboard balance and checkout fields.
+    function updateWalletBalanceUI() {
+      const balanceStr = 'GH₵ ' + window._walletBalance.toFixed(2);
+      
+      // Update sidebar balance element
+      const balanceVal = document.getElementById('customer-wallet-balance');
+      if (balanceVal) {
+        balanceVal.textContent = balanceStr;
+      }
+      
+      // Update checkout option select value
+      const paymentDropdown = document.getElementById('payment-method');
+      if (paymentDropdown) {
+        for (let i = 0; i < paymentDropdown.options.length; i++) {
+          if (paymentDropdown.options[i].text.includes('Wallet Balance')) {
+            paymentDropdown.options[i].text = 'Wallet Balance (' + balanceStr + ')';
+            break;
+          }
+        }
+      }
+    }
+
+    // STUDY COMMENT: Reseller wallet deposit simulator. Credits funds and adds logs.
+    function topUpWalletSim(amount) {
+      window._walletBalance += amount;
+      updateWalletBalanceUI();
+      
+      // Prepend simulated transactions
+      addTransactionItem('MoMo Wallet Top-Up (Simulation)', '+GH₵ ' + amount.toFixed(2), 'Credited', true);
+      toast('⚡ Loaded GH₵ ' + amount.toFixed(2) + ' to wallet balance successfully!');
+    }
+
+    // STUDY COMMENT: Creates a subscription object, updates the status panel, and triggers confirmation.
+    function createSubscription() {
+      const net = document.getElementById('sub-network').value;
+      const bundleSelect = document.getElementById('sub-bundle');
+      const size = bundleSelect.options[bundleSelect.selectedIndex].text.split(' (')[0];
+      const price = parseFloat(bundleSelect.value);
+      const interval = document.getElementById('sub-interval').value;
+      const phone = document.getElementById('sub-phone').value.trim();
+      
+      if (!phone) {
+        toast('Error: Enter a recipient phone number.');
+        return;
+      }
+      
+      window._activeSubscription = {
+        network: net,
+        size: size,
+        price: price,
+        interval: interval,
+        phone: phone,
+        status: 'Active',
+        nextRenewal: 'in 24 hours'
+      };
+      
+      renderSubscriptionStatus();
+      toast('🎉 Active ' + size + ' ' + net + ' plan created!');
+    }
+
+    // STUDY COMMENT: Manually cancels active subscriptions.
+    function terminateSubscriptionManual() {
+      window._activeSubscription = null;
+      renderSubscriptionStatus();
+      toast('Subscription plan cancelled.');
+    }
+
+    // STUDY COMMENT: Simulates a 24h cron execution. Deducts balance if available, otherwise terminates subscription.
+    function simulateSubscriptionRenewal() {
+      if (!window._activeSubscription) {
+        toast('Error: No active plan to simulate.');
+        return;
+      }
+      
+      const sub = window._activeSubscription;
+      if (sub.status !== 'Active') {
+        toast('Error: Subscription is currently terminated.');
+        return;
+      }
+      
+      if (window._walletBalance >= sub.price) {
+        // Successful deduction
+        window._walletBalance -= sub.price;
+        updateWalletBalanceUI();
+        
+        // Add log
+        addTransactionItem('Sub Auto-Renewal: ' + sub.size + ' ' + sub.network, '-GH₵ ' + sub.price.toFixed(2), 'Delivered', false);
+        toast('⚡ Auto-delivered ' + sub.size + ' ' + sub.network + ' to ' + sub.phone + ' successfully!');
+      } else {
+        // Insufficient funds termination
+        sub.status = 'Terminated';
+        renderSubscriptionStatus();
+        
+        // Add failed log
+        addTransactionItem('Sub Auto-Renewal FAILED (Low Funds)', 'GH₵ 0.00', 'Failed', false);
+        toast('❌ Insufficient funds. Data subscription has been terminated.');
+      }
+    }
+
+    // STUDY COMMENT: Appends subscription status card values.
+    function renderSubscriptionStatus() {
+      const parent = document.getElementById('sub-status-container');
+      if (!parent) return;
+      
+      if (!window._activeSubscription) {
+        parent.innerHTML = `
+          <div class="text-center py-6 text-slate-500 text-xs">
+            <i data-lucide="info" class="w-8 h-8 text-slate-600 mx-auto mb-2 block"></i>
+            <span>No active subscription. Create a plan above using your wallet balance.</span>
+          </div>
+        `;
+      } else {
+        const sub = window._activeSubscription;
+        const isActive = sub.status === 'Active';
+        const statusBadge = isActive 
+          ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/10' 
+          : 'text-rose-500 bg-rose-500/10 border-rose-500/10';
+        
+        parent.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex justify-between items-center bg-slate-950/60 p-3.5 rounded-xl border border-slate-850">
+              <div>
+                <span class="text-[9px] font-bold text-slate-500 block uppercase tracking-wider">Active Plan</span>
+                <span class="text-sm font-bold text-slate-200">${sub.size} - ${sub.network}</span>
+                <span class="text-[10px] text-slate-500 block mt-0.5">Interval: ${sub.interval} | Recipient: ${sub.phone}</span>
+              </div>
+              <div class="text-right">
+                <span class="text-xs font-extrabold text-slate-200 block font-mono">GH₵ ${sub.price.toFixed(2)}</span>
+                <span class="inline-flex text-[9px] font-bold ${statusBadge} px-2.5 py-0.5 rounded-full mt-1 border">${sub.status}</span>
+              </div>
+            </div>
+            
+            ${isActive ? `
+              <div class="flex justify-between items-center text-xs bg-blue-600/5 border border-blue-500/10 p-3 rounded-xl">
+                <span class="text-slate-400">Next Automatic Delivery</span>
+                <span class="font-semibold text-blue-400">${sub.nextRenewal}</span>
+              </div>
+              <button onclick="terminateSubscriptionManual()" class="w-full border border-rose-500/30 text-rose-500 hover:bg-rose-500/10 font-bold py-2 rounded-xl text-xs active:scale-95 transition-all">
+                Cancel Subscription Plan
+              </button>
+            ` : `
+              <div class="text-xs bg-rose-500/5 border border-rose-500/10 p-3 rounded-xl text-rose-400 leading-normal">
+                Your subscription was terminated due to insufficient funds at the last renewal cycle. Deposit funds and recreate the subscription.
+              </div>
+            `}
+          </div>
+        `;
+      }
+      
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    // STUDY COMMENT: Dynamically inserts new log items to the transaction list.
+    function addTransactionItem(title, amount, status, isCredit) {
+      const container = document.getElementById('customer-transactions-list');
+      if (!container) return;
+      
+      const badgeStyle = status === 'Delivered' || status === 'Credited' 
+        ? 'text-emerald-400 bg-emerald-500/10 border-emerald-500/10' 
+        : status === 'Failed' 
+          ? 'text-rose-500 bg-rose-500/10 border-rose-500/10' 
+          : 'text-blue-400 bg-blue-500/10 border-blue-500/10';
+      
+      const icon = isCredit ? 'plus' : 'arrow-up-right';
+      const amountStyle = isCredit ? 'text-emerald-500' : 'text-rose-500';
+      const bgCircle = isCredit ? 'bg-blue-500/10 text-blue-400' : 'bg-emerald-500/10 text-emerald-400';
+      
+      const div = document.createElement('div');
+      div.className = 'flex items-center gap-4 py-3 border-b border-slate-850 last:border-b-0';
+      div.innerHTML = `
+        <div class="w-9 h-9 rounded-full ${bgCircle} flex items-center justify-center shrink-0">
+          <i data-lucide="${icon}" class="w-4 h-4"></i>
+        </div>
+        <div class="flex-grow min-w-0">
+          <h4 class="text-xs font-bold text-slate-200 truncate">${title}</h4>
+          <p class="text-[10px] text-slate-500 mt-0.5">Simulation Renewal · Live State</p>
+        </div>
+        <div class="text-right shrink-0">
+          <span class="text-xs font-bold ${amountStyle} block">${amount}</span>
+          <span class="inline-flex text-[9px] font-bold ${badgeStyle} px-2 py-0.5 rounded-full mt-1 border">${status}</span>
+        </div>
+      `;
+      
+      container.insertBefore(div, container.firstChild);
+      
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    // STUDY COMMENT: Initializes dynamic functions on window completion load.
+    window.addEventListener('DOMContentLoaded', () => {
+      // Setup initial router selection
+      showPage('landing');
+      
+      // Setup default active visual states on grid selectors
+      const firstNetworkCard = document.querySelector('#networks .network-card');
+      if (firstNetworkCard) selectNetwork(firstNetworkCard, 'MTN');
+      
+      const firstBundleCard = document.querySelector('#bundles .bundle-card');
+      if (firstBundleCard) selectBundle(firstBundleCard, '1 GB', 'GH₵ 5.20');
+      
+      // Hydrate all icons globally
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>
